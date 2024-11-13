@@ -1,19 +1,32 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(Renderer))]
 public class Item : MonoBehaviour
 {
     [SerializeField] private Collider collider;
     [SerializeField] private Rigidbody rigidbody;
-
+    [SerializeField] private ItemView itemView;
+    private bool _selected;
+    
     public void Unselect()
     {
-        Debug.Log("Selected");
+        if (!_selected)
+        {
+            return;
+        }
+        
+        itemView.UnHighlight();
+        _selected = false;
     }
 
     public void Select()
     {
-        Debug.Log("Unselected");
+        if (_selected)
+        {
+            return;
+        }
+        
+        itemView.Highlight();
+        _selected = true;
     }
 
     public void Pickup()
