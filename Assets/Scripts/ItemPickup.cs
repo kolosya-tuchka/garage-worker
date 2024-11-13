@@ -6,12 +6,12 @@ public class ItemPickup : MonoBehaviour
     [SerializeField] private ItemHold itemHold;
     [SerializeField] private ItemCheck itemCheck;
 
-    private GameObject HeldItem
+    private Item HeldItem
     {
         get => itemHold.HeldItem;
         set => itemHold.HeldItem = value;
     }
-    private ISelectable SelectedItem => itemCheck.SelectedItem;
+    private Item SelectedItem => itemCheck.SelectedItem;
 
     private void Update()
     {
@@ -21,32 +21,21 @@ public class ItemPickup : MonoBehaviour
             {
                 PickupItem();
             }
-            else if (HeldItem is not null)
-            {
-                DropItem();
-            }
         }
     }
 
     private void PickupItem()
     {
-        if (SelectedItem == null)
+        if (SelectedItem is null)
         {
             return;
         }
 
-        HeldItem = SelectedItem.GetGameObject();
+        HeldItem = SelectedItem;
         SelectedItem.Unselect();
 
-        HeldItem.GetComponent<Collider>().enabled = false;
         HeldItem.transform.position = holdPosition.position;
         HeldItem.transform.parent = holdPosition;
-    }
-
-    private void DropItem()
-    {
-        HeldItem.transform.parent = null;
-        HeldItem.GetComponent<Collider>().enabled = true;
-        HeldItem = null;
+        HeldItem.Pickup();
     }
 }

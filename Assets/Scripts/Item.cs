@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Renderer))]
-public class Item : MonoBehaviour, ISelectable
+public class Item : MonoBehaviour
 {
-    public GameObject GetGameObject() => gameObject;
+    [SerializeField] private Collider collider;
+    [SerializeField] private Rigidbody rigidbody;
 
     public void Unselect()
     {
@@ -13,5 +14,19 @@ public class Item : MonoBehaviour, ISelectable
     public void Select()
     {
         Debug.Log("Unselected");
+    }
+
+    public void Pickup()
+    {
+        collider.enabled = false;
+        rigidbody.isKinematic = true;
+    }
+
+    public void Drop(Vector3 dropForce)
+    {
+        collider.enabled = true;
+        rigidbody.isKinematic = false;
+        
+        rigidbody.AddForce(dropForce, ForceMode.Impulse);
     }
 }

@@ -2,5 +2,5 @@
 
 public class ItemHold : MonoBehaviour
 {
-    public GameObject HeldItem { get; set; }
+    public Item HeldItem { get; set; }
 }
